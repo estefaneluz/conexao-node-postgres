@@ -1,6 +1,6 @@
-import express from 'express';
-import autores from './controllers/autores'
-import livros from './controllers/livros'
+const express = require('express');
+const autores = require('./controllers/autores');
+const livros = require('./controllers/livros');
 
 const routes = express();
 
