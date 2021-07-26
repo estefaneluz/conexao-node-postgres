@@ -1,5 +1,4 @@
 const { Pool } = require('pg');
-const { pathToFileURL } = require('url');
 const password = require('../ps');
 
 const pool = new Pool({
