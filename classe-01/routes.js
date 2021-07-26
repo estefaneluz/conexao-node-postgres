@@ -12,10 +12,10 @@ routes.put('/autores/:id', autores.editarAutor);
 routes.delete('/autores/:id', autores.deletarAutor); 
 
 //livros
-routes.get('/livros', ); 
-routes.get('/livros/:id', ); 
-routes.post('/livros', ); 
-routes.put('/livros/:id', );
-routes.delete('/livros/:id', );
+routes.get('/livros', livros.listarLivros); 
+routes.get('/livros/:id', livros.obterLivro); 
+routes.post('/livros', livros.cadastrarLivro); 
+routes.put('/livros/:id', livros.editarLivro);
+routes.delete('/livros/:id', livros.deletarLivro);
 
 module.exports = routes;
