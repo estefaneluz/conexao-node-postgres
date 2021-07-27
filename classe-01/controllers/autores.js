@@ -32,7 +32,20 @@ const obterAutor = async (req, res) => {
 }
 
 const cadastrarAutor = async (req, res) => {
+    const {nome, idade} = req.body;
+    if(!nome){
+        return res.status(400).json("O campo nome precisa ser preenchido.");
+    }
 
+    try {
+        const autor = await conexao.query("INSERT INTO autores (nome, idade) VALUES ($1, $2)", [nome, idade]);
+        
+        if(!autor.rowCount) return res.status(404).json("Não foi possível realizar o cadastro");
+
+        return res.status(200).json("Autor cadastrado com sucesso!");
+    } catch(error){
+        return res.status(400).json(error.message);
+    }
 }
 
 const editarAutor = async (req, res) => {
