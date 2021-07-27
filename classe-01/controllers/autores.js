@@ -16,19 +16,19 @@ const listarAutores = async (req, res) => {
     }
 }
 
-const obterAutor = (req, res) => {
+const obterAutor = async (req, res) => {
     
 }
 
-const cadastrarAutor = (req, res) => {
+const cadastrarAutor = async (req, res) => {
 
 }
 
-const editarAutor = (req, res) => {
+const editarAutor = async (req, res) => {
 
 }
 
-const deletarAutor = (req, res) => {
+const deletarAutor = async (req, res) => {
 
 }
 

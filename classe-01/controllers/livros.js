@@ -1,20 +1,20 @@
-const listarLivros = (req, res) => {
+const listarLivros = async (req, res) => {
 
 }
 
-const obterLivro = (req, res) => {
+const obterLivro = async (req, res) => {
 
 }
 
-const cadastrarLivro = (req, res) => {
+const cadastrarLivro = async (req, res) => {
 
 }
 
-const editarLivro = (req, res) => {
+const editarLivro = async (req, res) => {
 
 }
 
-const deletarLivro = (req, res) => {
+const deletarLivro = async (req, res) => {
 
 }
 
