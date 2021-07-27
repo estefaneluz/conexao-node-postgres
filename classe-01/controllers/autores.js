@@ -69,7 +69,16 @@ const editarAutor = async (req, res) => {
 }
 
 const deletarAutor = async (req, res) => {
-
+    const { id } = req.params;
+    try {
+        const autor = await conexao.query("SELECT * FROM autores WHERE id = $1", [id]);
+        if(!autor.rowCount) return res.status(404).json("O autor informado não foi encontrado");
+        const autorDeletado = await conexao.query("DELETE FROM autores WHERE id = $1", [id]);
+        if(!autorDeletado.rowCount) return res.status(400).json("Não foi possível deletar o autor.");
+        return res.status(200).json("Autor deletado com sucesso.");
+    } catch (error) {
+        return res.status(400).json(error.message);
+    }
 }
 
 module.exports = { listarAutores, obterAutor, cadastrarAutor, editarAutor, deletarAutor };
