@@ -10,7 +10,14 @@ const listarLivros = async (req, res) => {
 }
 
 const obterLivro = async (req, res) => {
-
+    const { id } = req.params;
+    try {
+        const livro = await conexao.query("SELECT * FROM livros WHERE id = $1", [id]);
+        if(!livro.rowCount) return res.status(404).json("Livro não encontrado.");
+        return res.status(200).json(livro.rows[0]);
+    } catch (error) {
+        return res.status(400).json(error.message);
+    }
 }
 
 const cadastrarLivro = async (req, res) => {
