@@ -2,6 +2,7 @@ const express = require('express');
 const autores = require('./controllers/autores');
 const livros = require('./controllers/livros');
 const usuarios = require('./controllers/usuarios');
+const emprestimos = require('./controllers/emprestimos');
 
 const routes = express();
 
@@ -28,6 +29,10 @@ routes.delete('/usuarios/:id', usuarios.deletarUsuario);
 
 //emprestimos 
 
-
+routes.get('/emprestimos', emprestimos.listarEmprestimos);
+routes.get('/emprestimos/:id', emprestimos.obterEmprestimo);
+routes.post('/emprestimos', emprestimos.cadastrarEmprestimo);
+routes.put('/emprestimos/:id', emprestimos.editarEmprestimo);
+routes.delete('/emprestimos/:id', emprestimos.deletarEmprestimo);
 
 module.exports = routes;
