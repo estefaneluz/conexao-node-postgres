@@ -40,10 +40,14 @@ const editarEmprestimo = async (req, res) => {
     const { status } = req.body;
 
     if(!status) return res.status(400).json("O novo status precisa ser informado.");
-    if(status!=='pendente' && status !== 'devolvido') return res.status(400).json("O status precisa ser 'pendente' ou 'devolvido'");
+    if(status!=='pendente' && status !== 'devolvido') return res.status(400).json("O status precisa ser igual a 'pendente' ou 'devolvido'");
 
     try {
-
+        const emprestimo = await conexao.query("SELECT * FROM emprestimos WHERE id = $1", [id]);
+        if(!emprestimo.rowCount) return res.status(404).json("Não foi possível encontrar o emprestimo.");
+        const emprestimoEditado = await conexao.query("UPDATE emprestimos SET status = $1 WHERE id = $2", [status, id]);
+        if(!emprestimoEditado.rowCount) return res.status(400).json("Não foi possível atualizar o emprestimo.");
+        return res.status(200).json("Emprestimo atualizado com sucesso!");
     } catch (error) {
         return res.status(400).json(error.message);
     }
