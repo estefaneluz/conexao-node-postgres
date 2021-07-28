@@ -21,7 +21,17 @@ const obterUsuario =  async (req, res) => {
 }
 
 const cadastrarUsuario = async (req, res) => {
+    const { nome, idade, email, telefone, cpf } = req.body;
 
+    if(!nome) return res.status(400).json("O nome precisa ser informado.");
+    if(!email) return res.status(400).json("O e-mail precisa ser informado.");
+    if(!cpf) return res.status(400).json("O cpf precisa ser informado.");
+    if(!email.includes('@') || !email.includes(".")) return res.status(400).json("Insira um e-mail válido.");
+    try {
+
+    } catch(error) {
+        return res.status(400).json(error.message);
+    }
 }
 
  const editarUsuario = async (req, res) => {
