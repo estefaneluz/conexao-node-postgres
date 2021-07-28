@@ -2,7 +2,9 @@ const conexao = require('../connection');
 
 const listarLivros = async (req, res) => {
     try {
-        const { rows: livros } = await conexao.query("SELECT * FROM livros");
+        const { rows: livros } = await conexao.query(`
+        SELECT l.id, a.nome AS nome_autor, l.nome, l.editora, l.genero, l.data_publicacao FROM livros l
+        LEFT JOIN autores a ON l.autor_id = a.id`);
         return res.status(200).json(livros);
     } catch (error) {
         return res.status(400).json(error.message);
