@@ -40,7 +40,16 @@ const editarEmprestimo = async (req, res) => {
 }
 
 const deletarEmprestimo = async (req, res) => {
-
+    const { id } = req.params;
+    try {
+        const emprestimo = await conexao.query("SELECT * FROM emprestimos WHERE id = $1", [id]);
+        if(!emprestimo.rowCount) return res.status(404).json("Emprestimo não encontrado.");
+        const emprestimoDeletado = await conexao.query("DELETE FROM emprestimos WHERE id = $1", [id]);
+        if(!emprestimoDeletado.rowCount) return res.status(400).status("Não foi possível deletar o emprestimo.");
+        return res.status(200).json("Emprestimo deletado com sucesso!");
+    } catch (error) {
+        return res.status(400).json(error.message);
+    }
 }
 
 module.exports = {
