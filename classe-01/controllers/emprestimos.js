@@ -10,7 +10,14 @@ const listarEmprestimos = async (req, res) => {
 }
 
 const obterEmprestimo = async (req, res) => {
-
+    const { id } = req.params;
+    try {
+        const emprestimo = await conexao.query("SELECT * FROM emprestimos WHERE id = $1", [id]);
+        if(!emprestimo.rowCount) return res.status(404).json("Não foi possível encontrar o registro do emprestimo.");
+        return res.status(200).json(emprestimo.rows[0]);
+    } catch (error) {
+        return res.status(400).json(error.message);
+    }
 }
 
 const cadastrarEmprestimo = async (req, res) => {
