@@ -73,6 +73,10 @@ const deletarAutor = async (req, res) => {
     try {
         const autor = await conexao.query("SELECT * FROM autores WHERE id = $1", [id]);
         if(!autor.rowCount) return res.status(404).json("O autor informado não foi encontrado");
+
+        const livrosAutor = await conexao.query("SELECT * FROM livros WHERE autor_id = $1", [id]);
+        if(autor.rowCount) return res.status(400).json("Não podemos deletar um autor que possui livros atrelados a ele.");
+        
         const autorDeletado = await conexao.query("DELETE FROM autores WHERE id = $1", [id]);
         if(!autorDeletado.rowCount) return res.status(400).json("Não foi possível deletar o autor.");
         return res.status(200).json("Autor deletado com sucesso.");
