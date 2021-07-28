@@ -27,8 +27,12 @@ const cadastrarUsuario = async (req, res) => {
     if(!email) return res.status(400).json("O e-mail precisa ser informado.");
     if(!cpf) return res.status(400).json("O cpf precisa ser informado.");
     if(!email.includes('@') || !email.includes(".")) return res.status(400).json("Insira um e-mail válido.");
-    try {
 
+    try {
+        const usuario = await conexao.query(`INSERT INTO usuarios (nome, idade, email, telefone, cpf) 
+        VALUES ($1, $2, $3, $4, $5)`, [nome, idade, email, telefone, cpf]);
+        if(!usuario.rowCount) return res.status(400).json("Não foi possível cadastrar o usuário.");
+        return res.status(200).json("Usuário cadastrado com sucesso!");
     } catch(error) {
         return res.status(400).json(error.message);
     }
