@@ -22,8 +22,12 @@ routes.delete('/livros/:id', livros.deletarLivro);
 //usuarios
 routes.get('/usuarios', usuarios.listarUsuarios);
 routes.get('/usuarios/:id', usuarios.obterUsuario);
-routes.get('/usuarios', usuarios.cadastrarUsuario);
-routes.get('/usuarios/:id', usuarios.editarUsuario);
-routes.get('/usuarios/:id', usuarios.deletarUsuario);
+routes.post('/usuarios', usuarios.cadastrarUsuario);
+routes.put('/usuarios/:id', usuarios.editarUsuario);
+routes.delete('/usuarios/:id', usuarios.deletarUsuario);
+
+//emprestimos 
+
+
 
 module.exports = routes;
