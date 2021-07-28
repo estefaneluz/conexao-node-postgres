@@ -21,7 +21,14 @@ const obterEmprestimo = async (req, res) => {
 }
 
 const cadastrarEmprestimo = async (req, res) => {
+    const { autor_id, livro_id } = req.body;
+    if(!autor_id) return res.status(400).json("Precisa ser informado o id do autor.");
+    if(!livro_id) return res.status(400).json("Precisa ser informado o id do livro.");
+    try {
 
+    } catch (error) {
+        return res.status(400).json(error.message);
+    }
 }
 
 const editarEmprestimo = async (req, res) => {
