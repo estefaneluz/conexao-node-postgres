@@ -58,7 +58,16 @@ const editarLivro = async (req, res) => {
 }
 
 const deletarLivro = async (req, res) => {
-
+    const { id } = req.params;
+    try {
+        const livro = await conexao.query("SELECT * FROM livros WHERE id = $1", [id]);
+        if(!livro.rowCount) return res.status(404).json("Livro não encontrado.");
+        const livroDeletado = await conexao.query("DELETE FROM LIVROS WHERE id = $1", [id]);
+        if(!livroDeletado.rowCount) return res.status(400).json("Não foi possível deletar o livro.");
+        return res.status(200).json("Livro deletado com sucesso!");
+    } catch (error) {
+        return res.status(400).json(error.message);
+    }
 }
 
 module.exports = { listarLivros, obterLivro, cadastrarLivro, editarLivro, deletarLivro };
