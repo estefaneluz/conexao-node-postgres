@@ -37,7 +37,24 @@ const cadastrarLivro = async (req, res) => {
 }
 
 const editarLivro = async (req, res) => {
+    const { id } = req.params; 
+    const { autor_id, nome, editora, genero, data_publicacao } = req.body;
+    if(!autor_id || !nome || !genero) return res.status(400).json("Os campos autor_id, nome e genero precisam ser informados.");
+    try {
+        const livro = await conexao.query("SELECT * FROM livros WHERE id = $1", [id]);
 
+        if(!livro.rowCount) return res.status(404).json("Livro não encontrado.");
+
+        const livroAtualizado = await conexao.query(
+            "UPDATE livros SET autor_id = $1, nome = $2, editora = $3, genero = $4, data_publicacao = $5 WHERE id = $6",
+            [autor_id, nome, editora, genero, data_publicacao, id]);
+
+        if(!livroAtualizado.rowCount) return res.status(400).json("Não foi possível atualizar o livro.");
+
+        return res.status(200).json("Livro atualizado com sucesso.");
+    } catch (error) {
+        return res.status(400).json(error.message);
+    }
 }
 
 const deletarLivro = async (req, res) => {
