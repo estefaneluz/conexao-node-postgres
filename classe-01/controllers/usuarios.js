@@ -63,6 +63,10 @@ const cadastrarUsuario = async (req, res) => {
     try {
         const usuario = await conexao.query("SELECT * FROM usuarios WHERE id = $1", [id]);
         if(!usuario.rowCount) return res.status(404).json("Usuário não encontrado.");
+
+        const emprestimoUsuario = await conexao.query("SELECT * FROM emprestimos WHERE usuario_id = $1", [id]);
+        if(emprestimoUsuario.rowCount) return res.status(400).json("Não podemos deletar esse usuário pois existe um emprestimo atrelado a ele");
+
         const usuarioDeletado = await conexao.query("DELETE FROM usuarios WHERE id = $1", [id]);
         if(!usuarioDeletado.rowCount) return res.status(400).json("Não foi possível deletar o usuário.");
         return res.status(200).json("Usuário deletado com sucesso!");
