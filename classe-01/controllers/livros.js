@@ -64,6 +64,10 @@ const deletarLivro = async (req, res) => {
     try {
         const livro = await conexao.query("SELECT * FROM livros WHERE id = $1", [id]);
         if(!livro.rowCount) return res.status(404).json("Livro não encontrado.");
+
+        const emprestimoLivro = await conexao.query("SELECT * FROM emprestimos WHERE livro_id = $1", [id]);
+        if(emprestimoLivro.rowCount) return res.status(400).json("Não podemos deletar esse livro pois existe um emprestimo atrelado a ele.");
+
         const livroDeletado = await conexao.query("DELETE FROM LIVROS WHERE id = $1", [id]);
         if(!livroDeletado.rowCount) return res.status(400).json("Não foi possível deletar o livro.");
         return res.status(200).json("Livro deletado com sucesso!");
