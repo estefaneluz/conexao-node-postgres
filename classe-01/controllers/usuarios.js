@@ -5,7 +5,8 @@ const listarUsuarios = async (req, res) => {
         const { rows: usuarios } = await conexao.query("SELECT * FROM usuarios");
         for(const usuario of usuarios){
             const { rows: emprestimos } = await conexao.query(
-                `SELECT e.id, e.usuario_id, e.livro_id, e.status, l.nome FROM emprestimos e
+                `SELECT e.id, e.usuario_id, e.livro_id, e.status, l.nome AS livro
+                FROM emprestimos e
                 JOIN livros l ON l.id = e.livro_id AND e.usuario_id = $1`, [usuario.id]);
             usuario.emprestimos = emprestimos;
         }
@@ -21,7 +22,8 @@ const obterUsuario =  async (req, res) => {
         const usuario = await conexao.query("SELECT * FROM usuarios WHERE id = $1", [id]);
         if(!usuario.rowCount) return res.status(404).json("Não foi possível encontrar o usuário.");
         const { rows: emprestimos } = await conexao.query(
-                `SELECT e.id, e.usuario_id, e.livro_id, e.status, l.nome FROM emprestimos e
+                `SELECT e.id, e.usuario_id, e.livro_id, e.status, l.nome AS livro 
+                FROM emprestimos e
                 JOIN livros l ON l.id = e.livro_id AND e.usuario_id = $1`, [id]);
         usuario.rows[0].emprestimos = emprestimos;
         return res.status(200).json(usuario.rows[0]);
