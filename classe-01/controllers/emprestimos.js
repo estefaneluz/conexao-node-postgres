@@ -2,7 +2,12 @@ const conexao = require('../connection');
 
 const listarEmprestimos = async (req, res) => {
     try {
-        const { rows: emprestimos } = await conexao.query("SELECT * FROM emprestimos");
+        const { rows: emprestimos } = await conexao.query(`
+        SELECT e.id, u.nome AS usuario, u.telefone, u.email, l.nome AS livro, e.status 
+        FROM emprestimos e
+        JOIN usuarios u ON u.id = e.usuario_id
+        JOIN livros l ON l.id = e.livro_id`
+        );
         return res.status(200).json(emprestimos);
     } catch (error) {
         return res.status(400).json(error.message);
